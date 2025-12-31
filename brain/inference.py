@@ -10,6 +10,7 @@ image = (
     modal.Image.debian_slim()
     # Install system dependencies if any are needed for pillow/opencv (but slim usually ok for basic)
     .pip_install(
+        "fastapi[standard]",
         "transformers>=4.49.0",
         "torch",
         "accelerate",
