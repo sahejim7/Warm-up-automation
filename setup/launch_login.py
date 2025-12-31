@@ -26,9 +26,25 @@ def main():
 
     container_name = f"android_{acct_id}"
     data_dir = f"/teamspace/studios/this_studio/tiktok_data/data_{acct_id}"
-    image_name = "redroid/redroid:11.0.0-native-bridge-magisk"
+    image_name = "redroid/redroid:11.0.0_ndk_magisk"
 
     print(f"[*] Preparing Login Session for Account {acct_id}...")
+
+    # Pre-flight Check: Ensure Image Exists
+    try:
+        img_check = subprocess.run(
+            f"sudo docker images -q {image_name}", 
+            shell=True, 
+            stdout=subprocess.PIPE, 
+            stderr=subprocess.DEVNULL
+        )
+        if not img_check.stdout.strip():
+            print(f"\n❌ ERROR: Docker Image '{image_name}' not found locally!")
+            print("You must build it first by running:")
+            print("   bash scripts/setup_cloud.sh")
+            return
+    except Exception:
+        pass # If check fails, let the run command handle it, but the check is safer.
     
     # Cleanup previous instances
     print(f"[*] Stopping any existing container named {container_name}...")

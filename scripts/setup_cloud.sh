@@ -32,7 +32,7 @@ sudo service docker start || true
 echo "--- Environment Ready. Starting Redroid Build... ---"
 
 # Check if image already exists to save time
-if [[ "$(sudo docker images -q redroid/redroid:11.0.0-native-bridge-magisk 2> /dev/null)" == "" ]]; then
+if [[ "$(sudo docker images -q redroid/redroid:11.0.0_ndk_magisk 2> /dev/null)" == "" ]]; then
     if [ ! -d "redroid-script" ]; then
         echo "[*] Cloning redroid-script..."
         git clone https://github.com/ayasa520/redroid-script.git
@@ -48,7 +48,7 @@ if [[ "$(sudo docker images -q redroid/redroid:11.0.0-native-bridge-magisk 2> /d
     sudo python3 redroid-script/redroid.py -a 11.0.0 -n -m
     
     echo "[*] Cleaning up..."
-    rm -rf redroid-script
+    sudo rm -rf redroid-script
 else
     echo "✅ Redroid image already exists. Skipping build."
 fi

@@ -11,7 +11,7 @@ import sys
 # Constants
 MODAL_URL = "placeholder" # Replace with actual URL
 DATA_DIR = "/teamspace/studios/this_studio/tiktok_data"
-IMAGE_NAME = "redroid/redroid:11.0.0-native-bridge-magisk"
+IMAGE_NAME = "redroid/redroid:11.0.0_ndk_magisk"
 ADB_PORT = "5555"
 ADB_HOST = f"localhost:{ADB_PORT}"
 
