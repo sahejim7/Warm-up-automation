@@ -25,7 +25,16 @@ def main():
         conf = json.load(f)
 
     container_name = f"android_{acct_id}"
-    data_dir = f"/teamspace/studios/this_studio/tiktok_data/data_{acct_id}"
+    
+    # Standard Linux Path
+    base_data_dir = os.path.expanduser('~/tiktok_data')
+    data_dir = os.path.join(base_data_dir, f"data_{acct_id}")
+    
+    # Ensure Directory Exists
+    if not os.path.exists(data_dir):
+        print(f"[*] Creating data directory: {data_dir}")
+        os.makedirs(data_dir, exist_ok=True)
+        
     image_name = "redroid/redroid:11.0.0_ndk_magisk"
 
     print(f"[*] Preparing Login Session for Account {acct_id}...")
@@ -52,7 +61,7 @@ def main():
     subprocess.run(f"sudo docker rm {container_name}", shell=True, stderr=subprocess.DEVNULL)
 
     # Build the full command
-    # Note: Use sudo for docker on Lightning AI/Linux
+    # Note: Use sudo for docker on Cloud/Linux
     cmd = [
         "sudo", "docker", "run", "-d", "--rm", "--privileged",
         "-p", "5555:5555",
