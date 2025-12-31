@@ -34,43 +34,42 @@ modal deploy brain/inference.py
    Open `farm/controller.py` and replace `MODAL_URL = "placeholder"` with your actual Modal URL from Step 3.
 
 ## 5. Manual Login ("The Pain Phase")
-You must manually log in to TikTok for each of the 20 accounts *once* to save the session tokens in the persistent volume.
-
-**Setup remote access:**
-1. Install ngrok on the cloud instance:
-   ```bash
-   pip install pyngrok
-   ngrok authtoken <YOUR_TOKEN>
-   ```
+You must manually log in to TikTok for each of the 20 accounts *once* to save the session tokens.
 
 **The Loop (Repeat for accounts 01-20):**
-1. Start a specific container manually (you can look at `farm/controller.py` for the exact run command or use a temporary helper script).
+
+1. **Launch Account Container**:
+   Instead of complex docker commands, use the helper:
    ```bash
-   # Example for account 01
-   docker run -d --rm --privileged -p 5555:5555 \
-     -v /teamspace/studios/this_studio/tiktok_data/data_01:/data \
-     --name android_01 \
-     redroid/redroid:11.0.0-native-bridge-magisk \
-     androidboot.redroid_mac_address=<MAC_FROM_CONFIG> \
-     androidboot.redroid_model=<MODEL_FROM_CONFIG> \
-     androidboot.redroid_native_bridge=1 \
-     androidboot.redroid_gpu_mode=guest
+   python3 setup/launch_login.py 01
    ```
-2. Tunnel port 5555:
+   *(Replace 01 with the account ID you are setting up)*
+
+2. **Tunnel with Ngrok**:
    ```bash
    ngrok tcp 5555
    ```
-3. **On your LOCAL PC**:
+
+3. **Connect from your LOCAL PC**:
+   - Install `scrcpy` on your local machine if you haven't.
+   - Run the following (replacing the URL with the one ngrok gave you):
    ```bash
-   # Connect to the ngrok address (e.g., 0.tcp.ngrok.io:12345)
-   adb connect 0.tcp.ngrok.io:12345
-   scrcpy -s 0.tcp.ngrok.io:12345
+   adb connect 0.tcp.ngrok.io:XXXXX
+   scrcpy -s 0.tcp.ngrok.io:XXXXX
    ```
-4. Perform the Login/Captcha inside the Scrcpy window.
-5. Stop the container on the cloud: `docker stop android_01`.
+
+4. **Login**: Perform the Login/Captcha inside the Scrcpy window.
+5. **Cleanup**: Stop the container on the cloud when finished:
+   ```bash
+   sudo docker stop android_01
+   ```
 
 ## 6. Run the Farm
-Once all accounts are logged in, start the automation controller. It will loop through all 20 accounts sequentially.
+Once all accounts are logged in, start the automation controller.
 ```bash
 python3 farm/controller.py
 ```
+
+## Troubleshooting
+- **Apt Errors**: If `setup_cloud.sh` fails, run `sudo apt --fix-broken install`.
+- **Docker Permission**: If you see "permission denied", ensure you are using `sudo` or your user is in the `docker` group.
