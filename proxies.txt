@@ -1,0 +1,24 @@
+# User 1: nununkbu
+142.111.48.253:7030:nununkbu:7dgsrxrfd863|America/Los_Angeles
+23.95.150.145:6114:nununkbu:7dgsrxrfd863|America/New_York
+198.23.239.134:6540:nununkbu:7dgsrxrfd863|America/New_York
+107.172.163.27:6543:nununkbu:7dgsrxrfd863|America/New_York
+216.10.27.159:6837:nununkbu:7dgsrxrfd863|America/Chicago
+23.26.71.145:5628:nununkbu:7dgsrxrfd863|America/Denver
+23.27.208.120:5830:nununkbu:7dgsrxrfd863|America/New_York
+
+# User 2: gwbbvkzk
+142.111.48.253:7030:gwbbvkzk:8jjv1c8c60o5|America/Los_Angeles
+23.95.150.145:6114:gwbbvkzk:8jjv1c8c60o5|America/New_York
+198.23.239.134:6540:gwbbvkzk:8jjv1c8c60o5|America/New_York
+107.172.163.27:6543:gwbbvkzk:8jjv1c8c60o5|America/New_York
+216.10.27.159:6837:gwbbvkzk:8jjv1c8c60o5|America/Chicago
+23.26.71.145:5628:gwbbvkzk:8jjv1c8c60o5|America/Denver
+23.27.208.120:5830:gwbbvkzk:8jjv1c8c60o5|America/New_York
+
+# Fallback / Other Proxies (Auto-detect)
+31.59.20.176:6754:fkhssjer:2btil8szdos8
+198.105.121.200:6462:fkhssjer:2btil8szdos8
+64.137.96.74:6641:fkhssjer:2btil8szdos8
+84.247.60.125:6095:fkhssjer:2btil8szdos8
+142.111.67.146:5611:fkhssjer:2btil8szdos8
