@@ -24,7 +24,14 @@ fi
 # Install other tools (ADB, Python, etc.)
 echo "[*] Installing ADB and build tools..."
 sudo apt-get install -y -o Dpkg::Options::="--force-confold" --fix-broken \
-    android-tools-adb git python3 python3-pip lzip
+    android-tools-adb git python3 python3-pip lzip curl
+
+# Install Playit.gg (Tunneling alternative to Ngrok)
+echo "[*] Installing Playit.gg..."
+if [ ! -f "playit" ]; then
+    curl -SSL https://github.com/playit-cloud/playit-agent/releases/download/v0.15.26/playit-linux-amd64 -o playit
+    chmod +x playit
+fi
 
 # Start Docker Service (Just in case it's stopped)
 sudo service docker start || true

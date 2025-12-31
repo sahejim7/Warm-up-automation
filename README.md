@@ -1,6 +1,6 @@
 # TikTok Automation Farm - Deployment Checklist
 
-This guide serves as a checklist for deploying the automation farm on a Lightning AI studio (or similar Linux cloud environment).
+This guide serves as a checklist for deployment on Lightning AI (or compatible Linux/Docker environments).
 
 ## 1. Clone Repository
 Get the code onto your machine.
@@ -10,7 +10,7 @@ cd <repo-name>
 ```
 
 ## 2. Setup Environment
-This script will install Docker, ADB, and build the custom Redroid image required for the farm.
+This script will install Docker, ADB, Playit.gg, and build the custom Redroid image.
 ```bash
 bash scripts/setup_cloud.sh
 ```
@@ -31,31 +31,37 @@ modal deploy brain/inference.py
    python3 setup/create_twins.py
    ```
 3. **Update Controller**:
-   Open `farm/controller.py` and replace `MODAL_URL = "placeholder"` with your actual Modal URL from Step 3.
+   The controller uses the `MODAL_URL` environment variable. Add it to your `.bashrc` or run:
+   ```bash
+   export MODAL_URL="<your_modal_url>"
+   ```
 
 ## 5. Manual Login ("The Pain Phase")
-You must manually log in to TikTok for each of the 20 accounts *once* to save the session tokens.
+You must manually log in to TikTok for each of the 20 accounts *once* to save the session tokens. We use **Playit.gg** for tunneling.
 
 **The Loop (Repeat for accounts 01-20):**
 
 1. **Launch Account Container**:
-   Instead of complex docker commands, use the helper:
    ```bash
    python3 setup/launch_login.py 01
    ```
    *(Replace 01 with the account ID you are setting up)*
 
-2. **Tunnel with Ngrok**:
+2. **Start Tunnel**:
+   Run Playit in your terminal:
    ```bash
-   ngrok tcp 5555
+   ./playit
    ```
+   - Click the **Claim URL** link printed in the terminal.
+   - On the website: Create a **Custom TCP Tunnel** pointing to `127.0.0.1:5555`.
+   - Copy the generated address (e.g., `purple-lion.ply.gg:12345`).
 
 3. **Connect from your LOCAL PC**:
-   - Install `scrcpy` on your local machine if you haven't.
-   - Run the following (replacing the URL with the one ngrok gave you):
+   - Install `scrcpy` and `adb` on your local machine if you haven't.
+   - Run the following on your **Laptop/Desktop**:
    ```bash
-   adb connect 0.tcp.ngrok.io:XXXXX
-   scrcpy -s 0.tcp.ngrok.io:XXXXX
+   adb connect purple-lion.ply.gg:12345
+   scrcpy -s purple-lion.ply.gg:12345
    ```
 
 4. **Login**: Perform the Login/Captcha inside the Scrcpy window.
@@ -72,4 +78,4 @@ python3 farm/controller.py
 
 ## Troubleshooting
 - **Apt Errors**: If `setup_cloud.sh` fails, run `sudo apt --fix-broken install`.
-- **Docker Permission**: If you see "permission denied", ensure you are using `sudo` or your user is in the `docker` group.
+- **Playit Permission**: If `./playit` says permission denied, run `chmod +x playit`.
