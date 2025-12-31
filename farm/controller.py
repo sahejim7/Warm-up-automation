@@ -9,7 +9,11 @@ import os
 import sys
 
 # Constants
-MODAL_URL = "placeholder" # Replace with actual URL
+# Try to get URL from Environment, otherwise use a placeholder/warning
+MODAL_URL = os.getenv("MODAL_URL", "PLACEHOLDER_URL_SET_IN_ENV")
+
+if MODAL_URL == "PLACEHOLDER_URL_SET_IN_ENV":
+    print("⚠️ WARNING: MODAL_URL not set! Check your .env file or environment variables.")
 DATA_DIR = "/teamspace/studios/this_studio/tiktok_data"
 IMAGE_NAME = "redroid/redroid:11.0.0_ndk_magisk"
 ADB_PORT = "5555"
